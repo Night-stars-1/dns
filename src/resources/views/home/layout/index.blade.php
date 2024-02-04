@@ -59,6 +59,7 @@ $qqimage='http://q1.qlogo.cn/g?b=qq&nk='.$qqh.'&s=100&t='. 'time()';
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_btns">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="yuanxing"  src="<?php echo $qqimage ?>"><br><br><br><br>
                 <center><a>UID:{{ auth()->user()->uid }}</a>&nbsp;&nbsp;&nbsp;<a>积分:{{ auth()->user()->point }}</a></center><hr>
+                <center><a class="mdi mdi-account btn" id="sign" href="javascript:void(0);" style="color: black;">签到</a></center>
                 <center><a class="mdi mdi-account btn" href="/home/profile" style="color: black;">个人信息</a></center>
                 <center><a class="mdi mdi-account btn" href="{!! config('sys.html_kefu') !!}"style="color: black;">联系客服</a><hr></center>             
                 <center><a class="mdi mdi-account btn" href="/logout" onclick="return confirm('确认退出登录？');"style="color: black;">退出登录</a></center><br>
@@ -128,6 +129,32 @@ function loadJs(path,callback){var header=document.getElementsByTagName("head")[
             $(".bd-content").addClass('moveRight');
             showMenu = true;
         }
+    });
+    $("#sign").click(function () {
+        fetch('/home', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: 'action=sign',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status !== 0) {
+                alert(data.message);
+            } else {
+                alert('签到成功，积分+' + data.point);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
     });
 </script>
 @yield('foot')

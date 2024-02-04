@@ -7,12 +7,17 @@
  */
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Builder;
 
-
+/**
+ * @method static Builder|static whereBetween(string $column, array $values, string $boolean = 'and', bool $not = false)
+ * @method static Builder|static create(array $attributes)
+ */
 class UserPointRecord extends Model
 {
     protected $guarded = ['id'];
     const UPDATED_AT = null;
+
 
     public function scopeSearch($query, $guard = 'web')
     {

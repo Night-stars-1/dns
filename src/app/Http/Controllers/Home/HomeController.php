@@ -15,6 +15,7 @@ use App\Models\Domain;
 use App\Models\DomainRecord;
 use App\Models\User;
 use App\Models\UserPointRecord;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,8 @@ class HomeController extends Controller
                 return $this->domainList($request);
             case 'pointRecord':
                 return $this->pointRecord($request);
+            case 'sign':
+                return $this->sign($request);
         }
         if (Auth::user()->status != 2) {
             return ['status' => -1, 'message' => "对不起，请先完成认证！<a href='/home/profile'>点击认证</a>"];
@@ -221,4 +224,34 @@ class HomeController extends Controller
         return $result;
     }
 
+    private function sign(Request $request)
+    {
+        $result = ['status' => -1];
+        $uid = Auth::id();
+        $randomPoint = rand(1, 10);
+        $startTime = Carbon::now()->startOfDay()->timestamp;
+        $endTime = Carbon::now()->endOfDay()->timestamp;
+        if ($uid && $user = User::find($uid)) {
+            if (UserPointRecord::whereBetween('created_at', [$startTime, $endTime])->where('remark', '签到')->where('remark', '签到')->exists()) {
+                $result['message'] = '今日已签到';
+                return $result;
+            } else {
+                $user->increment(
+                    'point',
+                    $randomPoint
+                );
+                UserPointRecord::create([
+                    'uid' => $uid,
+                    'action' => "增加",
+                    'point' => $randomPoint,
+                    'rest' => $user->point,
+                    'remark' => "签到"
+                ]);
+                $result = ['status' => 0, 'message' => '签到成功', 'point' => $randomPoint];
+            }
+        } else {
+            $result['message'] = '用户不存在';
+        }
+        return $result;
+    }
 }
