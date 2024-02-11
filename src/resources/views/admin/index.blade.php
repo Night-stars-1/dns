@@ -68,7 +68,7 @@ echo $result;
                             <tr>
                                 <td>源码当前版本：</td>
                                 <td style="padding-bottom: 0;">
-                                    v3.1.1
+                                    v3.1.2
                                 </td>
                             </tr>
                         </tbody>

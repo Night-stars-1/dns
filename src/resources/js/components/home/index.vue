@@ -31,8 +31,7 @@
                 </v-row>
             </template>
             <template v-slot:item.link="{ item }">
-                <!--${item.domain.domain}-->
-                <a :href="`http://${item.name}.`" target="_blank">{{ item.name + '.' }}</a>
+                <a :href="`http://${item.name}.${item.domain.domain}`" target="_blank">{{ item.name + '.' + item.domain.domain }}</a>
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-btn icon="mdi-pencil" size="small" variant="text" class="me-2" @click="editItem(item)"></v-btn>
@@ -47,7 +46,7 @@
         </v-data-table>
     </v-sheet>
 
-    <v-dialog v-model="domainDialog" width="auto" min-width="500px">
+    <v-dialog v-model="domainDialog" @update:modelValue="editeding=false" width="auto" min-width="500px">
         <v-card>
             <v-toolbar dark color="primary">
                 <v-toolbar-title>记录添加/修改</v-toolbar-title>
@@ -183,7 +182,6 @@ export default {
                 action: 'domainList',
             });
             this.domainList = response.data.data;
-            this.domainList[0].domain = 'xxx';
             this.domainData.domain = this.domainList[0];
         },
         async saveDomain() {
