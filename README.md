@@ -1,12 +1,16 @@
-## 由于原作者，觉得这个项目用途的确不大，已停更！
-### 重构版由：小周❃™制作，项目地址：https://github.com/zhoudedi/xzdns/
 
-# 小周二级域名分发系统 （xzdns v3.1.1）
+### 项目地址：https://github.com/Night-stars-1/dns
+
+# 小周二级域名分发系统 （xzdns v3.1.2）
 
 ## 此系统有哪些特点
 * 1、增加AAAA解析ipv6网站
 * 2、对接码支付
 * 2、修复一些已知的问题
+## 3.1.2 (20240211)
+* 1. 美化页面
+* 2. 提升Laravel版本为 9.2
+* 2. php版本提升为>=8.2
 ## 3.1.1 (20230116)
 * 目前支持的域名解析平台有
     *  dnspod
@@ -29,8 +33,8 @@
 * 4、更新一些平台的接口
 
 ## 安装说明
-* 1、程序的框架是Laravel 5.8，因此需要环境满足以下要求：
-    * PHP >= 7.1.3
+* 1、程序的框架是Laravel 9.2，因此需要环境满足以下要求：
+    * PHP >= 8.2
     * PHP OpenSSL 扩展
     * PHP PDO 扩展
     * PHP Mbstring 扩展
@@ -53,9 +57,8 @@
 1、如果你需要程序支持其他域名解析平台，且该平台有api接口，可以联系我，我尽量添加！
 2、在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
-* Github:https://github.com/klsf/kldns
-* 邮件(zdd@zhoudedi.top)
-* QQ: 2933206697
-* QQ交流群：[441331712](https://qm.qq.com/cgi-bin/qm/qr?k=yZCk8KcEV2tDhS7BryEQycbG10CTi_Ie&jump_from=webapi")
+### 原版源码归原作者所有，美化版源码归[Night-stars-1](https://github.com/Night-stars-1)所有
 
-### 原版源码归原作者所有，重置版源码归无言所有
+## 参考项目
+1. 原项目 https://github.com/klsf/kldns
+2. 重置版 https://github.com/zhoudedi/xzdns/
