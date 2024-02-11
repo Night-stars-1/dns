@@ -7,11 +7,23 @@
  */
 
 namespace App\Models;
+
 class Model extends \Illuminate\Database\Eloquent\Model
 {
     public function fromDateTime($value)
     {
         return strtotime(parent::fromDateTime($value));
+    }
+
+    /**
+     * 重写序列化的日期方法，Y-m-d H:i:s
+     *
+     * @param  \DateTimeInterface $date
+     * @return string
+     */
+    protected function serializeDate(\DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     public function scopePageSelect($query)

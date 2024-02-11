@@ -9,26 +9,28 @@
                         添加记录
                     </v-btn>
                 </v-toolbar>
-                <v-row class="mt-2">
-                    <v-col cols="10">
-                        <v-row no-gutters>
-                            <v-select label="域名" v-model="searchData.did"
-                                :items="[{ did: 0, domain: '所有', point: 0, desc: '', line: { Name: '', Id: 0, } }, ...domainList]"
-                                item-title="domain" item-value="did" variant="solo-filled"></v-select>
-                            <v-select class="ml-4" v-model="searchData.type" label="记录类型"
-                                :items="[{ index: 0, name: '所有' }, ...domainTypeData]" item-title="name" item-value="index"
-                                variant="solo-filled"></v-select>
-                        </v-row>
-                        <v-row no-gutters>
-                            <v-text-field v-model="searchData.name" label="主机记录" variant="solo-filled"></v-text-field>
-                            <v-text-field v-model="searchData.value" class="ml-4" label="记录值"
-                                variant="solo-filled"></v-text-field>
-                        </v-row>
-                    </v-col>
-                    <v-col align-self="center">
-                        <v-btn @click="getList(1)">搜索</v-btn>
-                    </v-col>
-                </v-row>
+                <v-container style="max-width: 100%;">
+                    <v-row>
+                        <v-col cols="10">
+                            <v-row no-gutters>
+                                <v-select label="域名" v-model="searchData.did"
+                                    :items="[{ did: 0, domain: '所有', point: 0, desc: '', line: { Name: '', Id: 0, } }, ...domainList]"
+                                    item-title="domain" item-value="did" variant="solo-filled"></v-select>
+                                <v-select class="ml-4" v-model="searchData.type" label="记录类型"
+                                    :items="[{ index: 0, name: '所有' }, ...domainTypeData]" item-title="name" item-value="index"
+                                    variant="solo-filled"></v-select>
+                            </v-row>
+                            <v-row no-gutters>
+                                <v-text-field v-model="searchData.name" label="主机记录" variant="solo-filled"></v-text-field>
+                                <v-text-field v-model="searchData.value" class="ml-4" label="记录值"
+                                    variant="solo-filled"></v-text-field>
+                            </v-row>
+                        </v-col>
+                        <v-col align-self="center">
+                            <v-btn @click="getList(1)">搜索</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-container>
             </template>
             <template v-slot:item.link="{ item }">
                 <a :href="`http://${item.name}.${item.domain.domain}`" target="_blank">{{ item.name + '.' + item.domain.domain }}</a>
@@ -46,7 +48,7 @@
         </v-data-table>
     </v-sheet>
 
-    <v-dialog v-model="domainDialog" @update:modelValue="editeding=false" width="auto" min-width="500px">
+    <v-dialog v-model="domainDialog" @update:modelValue="editeding=false" width="auto" min-width="400px">
         <v-card>
             <v-toolbar dark color="primary">
                 <v-toolbar-title>记录添加/修改</v-toolbar-title>

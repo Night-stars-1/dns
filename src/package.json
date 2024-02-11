@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "clean": "rimraf ../build",
-    "build": "npm run clean && vite build",
+    "clean": "rimraf ../build && rimraf public/build",
+    "build": "npm run clean && vite build && node copyFiles.js",
     "preview": "vite preview"
   },
   "devDependencies": {

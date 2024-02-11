@@ -6,7 +6,7 @@
                 <v-toolbar flat>
                     <v-toolbar-title>积分明细 -- 当前积分【{{ user.point }}】</v-toolbar-title>
                     <v-btn color="indigo-darken-3" variant="flat"
-                        :href="`/epay/index.php?WIDuser=${user.uid}&WIDtotal_fee=10&WIDsubject=积分充值`">
+                        :href="`/epay/index.php?WIDuser=${user.uid}&WIDtotal_fee=10&WIDsubject=积分充值&WIDsitename=${webName}`">
                         积分充值
                     </v-btn>
                 </v-toolbar>
@@ -22,6 +22,7 @@
 <script lang="ts">
 export default {
     data: () => ({
+        webName: window.webName,
         loading: false,
         dataHeaders: [
             {
@@ -61,6 +62,7 @@ export default {
     }),
     mounted() {
         this.getList(1);
+        this.getUser();
     },
     methods: {
         async getList(page: number) {
@@ -74,6 +76,10 @@ export default {
             this.loading = false;
             this.data = response.data.data.data;
         },
+        async getUser() {
+            const response = await this.$axios.post("/user");
+            this.user = response.data;
+        }
     },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <v-sheet class="main py-md-6 pl-md-12">
-        <v-col cols="4">
-            <v-card min-width="450px">
+        <v-col sm="8" md="6" lg="5" xl="4">
+            <v-card>
                 <v-toolbar dark color="primary">
                     <v-toolbar-title>公益防红</v-toolbar-title>
                 </v-toolbar>

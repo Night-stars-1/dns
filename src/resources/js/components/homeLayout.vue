@@ -9,7 +9,7 @@
                 <router-link class="router-link" to="/home">{{ webName }}</router-link>
             </v-app-bar-title>
 
-            <v-menu open-on-hover>
+            <v-menu open-on-hover open-on-click>
                 <template v-slot:activator="{ props }">
                     <v-btn icon color="primary" v-bind="props">
                         <v-icon>mdi-account-circle-outline</v-icon>
@@ -31,8 +31,8 @@
 
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-broadcast" title="解析记录" value="解析记录" to="/home" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-format-color-text" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-format-color-text" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-web" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-list-box-outline" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -41,8 +41,8 @@
 
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-broadcast" title="解析记录" value="解析记录" to="/home" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-format-color-text" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-format-color-text" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-web" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-list-box-outline" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
