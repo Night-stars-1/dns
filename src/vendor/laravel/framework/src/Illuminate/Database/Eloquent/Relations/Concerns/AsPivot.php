@@ -2,9 +2,8 @@
 
 namespace Illuminate\Database\Eloquent\Relations\Concerns;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 trait AsPivot
 {
@@ -33,9 +32,9 @@ trait AsPivot
      * Create a new pivot model instance.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  array   $attributes
+     * @param  array  $attributes
      * @param  string  $table
-     * @param  bool    $exists
+     * @param  bool  $exists
      * @return static
      */
     public static function fromAttributes(Model $parent, $attributes, $table, $exists = false)
@@ -66,9 +65,9 @@ trait AsPivot
      * Create a new pivot model from raw values returned from a query.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  array   $attributes
+     * @param  array  $attributes
      * @param  string  $table
-     * @param  bool    $exists
+     * @param  bool  $exists
      * @return static
      */
     public static function fromRawAttributes(Model $parent, $attributes, $table, $exists = false)
@@ -77,21 +76,23 @@ trait AsPivot
 
         $instance->timestamps = $instance->hasTimestampAttributes($attributes);
 
-        $instance->setRawAttributes($attributes, true);
+        $instance->setRawAttributes(
+            array_merge($instance->getRawOriginal(), $attributes), $exists
+        );
 
         return $instance;
     }
 
     /**
-     * Set the keys for a save update query.
+     * Set the keys for a select query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSelectQuery($query)
     {
         if (isset($this->attributes[$this->getKeyName()])) {
-            return parent::setKeysForSaveQuery($query);
+            return parent::setKeysForSelectQuery($query);
         }
 
         $query->where($this->foreignKey, $this->getOriginal(
@@ -101,6 +102,17 @@ trait AsPivot
         return $query->where($this->relatedKey, $this->getOriginal(
             $this->relatedKey, $this->getAttribute($this->relatedKey)
         ));
+    }
+
+    /**
+     * Set the keys for a save update query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function setKeysForSaveQuery($query)
+    {
+        return $this->setKeysForSelectQuery($query);
     }
 
     /**
@@ -121,6 +133,8 @@ trait AsPivot
         $this->touchOwners();
 
         return tap($this->getDeleteQuery()->delete(), function () {
+            $this->exists = false;
+
             $this->fireModelEvent('deleted', false);
         });
     }
@@ -203,7 +217,7 @@ trait AsPivot
     /**
      * Determine if the pivot model or given attributes has timestamp attributes.
      *
-     * @param  $attributes  array|null
+     * @param  array|null  $attributes
      * @return bool
      */
     public function hasTimestampAttributes($attributes = null)
@@ -256,7 +270,7 @@ trait AsPivot
     /**
      * Get a new query to restore one or more models by their queueable IDs.
      *
-     * @param  array<int>  $ids
+     * @param  int[]|string[]|string  $ids
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQueryForRestoration($ids)
@@ -265,7 +279,7 @@ trait AsPivot
             return $this->newQueryForCollectionRestoration($ids);
         }
 
-        if (! Str::contains($ids, ':')) {
+        if (! str_contains($ids, ':')) {
             return parent::newQueryForRestoration($ids);
         }
 
@@ -279,12 +293,14 @@ trait AsPivot
     /**
      * Get a new query to restore multiple models by their queueable IDs.
      *
-     * @param  array|int  $ids
+     * @param  int[]|string[]  $ids
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {
-        if (! Str::contains($ids[0], ':')) {
+        $ids = array_values($ids);
+
+        if (! str_contains($ids[0], ':')) {
             return parent::newQueryForRestoration($ids);
         }
 
@@ -300,5 +316,18 @@ trait AsPivot
         }
 
         return $query;
+    }
+
+    /**
+     * Unset all the loaded relations for the instance.
+     *
+     * @return $this
+     */
+    public function unsetRelations()
+    {
+        $this->pivotParent = null;
+        $this->relations = [];
+
+        return $this;
     }
 }

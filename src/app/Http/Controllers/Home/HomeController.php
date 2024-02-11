@@ -57,10 +57,12 @@ class HomeController extends Controller
     private function verify(Request $request)
     {
         $result = ['status' => -1];
+        //$email = $request->post('email');
         $user = Auth::user();
         if ($user->status != 1) {
             $result['message'] = '当前状态不需要认证';
         } else {
+            //$user->update(['email' => $email]);
             list($ret, $error) = Helper::sendVerifyEmail($user);
             if ($ret) {
                 $result = ['status' => 0, 'message' => "已将认证邮件发送到{$user->email}，请注意查收！"];
@@ -227,11 +229,10 @@ class HomeController extends Controller
     private function sign(Request $request)
     {
         $result = ['status' => -1];
-        $uid = Auth::id();
         $randomPoint = rand(1, 10);
         $startTime = Carbon::now()->startOfDay()->timestamp;
         $endTime = Carbon::now()->endOfDay()->timestamp;
-        if ($uid && $user = User::find($uid)) {
+        if ($user = Auth::user()) {
             if (UserPointRecord::whereBetween('created_at', [$startTime, $endTime])->where('remark', '签到')->where('remark', '签到')->exists()) {
                 $result['message'] = '今日已签到';
                 return $result;
@@ -241,7 +242,7 @@ class HomeController extends Controller
                     $randomPoint
                 );
                 UserPointRecord::create([
-                    'uid' => $uid,
+                    'uid' => $user->uid,
                     'action' => "增加",
                     'point' => $randomPoint,
                     'rest' => $user->point,

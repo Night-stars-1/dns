@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "vite.config.ts", 
+    "resources/js/**.ts", 
+    "resources/js/**.vue", 
+    "resources/js/**/**.vue", 
+    "resources/js/**/**/**.vue", 
+    "resources/js/**/**.ts",
+    "resources/js/**/**/**.ts", 
+    "resources/js/types/*.d.ts",
+  ]
+}

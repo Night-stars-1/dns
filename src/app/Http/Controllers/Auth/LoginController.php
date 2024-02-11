@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -74,7 +75,7 @@ class LoginController extends Controller
     public function adminLogin(Request $request)
     {
         if ($request->method() === 'POST') {
-            if (strtolower($request->post('code')) !== Session::get('captcha_code')) {
+            if (!Session::get('captcha_code') || strtolower($request->post('code')) !== strtolower(Session::get('captcha_code'))) {
                 return ['status' => -1, 'message' => '验证码不正确'];
             }
             $this->guardName = 'admin';

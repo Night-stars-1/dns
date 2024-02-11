@@ -1,0 +1,32 @@
+{
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot": {
+    "file": "assets/materialdesignicons-webfont-kq_ClZaA.eot",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf": {
+    "file": "assets/materialdesignicons-webfont-e5j8FT_3.ttf",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff": {
+    "file": "assets/materialdesignicons-webfont-D15t_tsC.woff",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2": {
+    "file": "assets/materialdesignicons-webfont-6eb_lmTU.woff2",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
+  },
+  "resources/js/app.ts": {
+    "file": "assets/app-07yT4-7z.js",
+    "src": "resources/js/app.ts",
+    "isEntry": true,
+    "css": [
+      "assets/app-dyCJw6LN.css"
+    ],
+    "assets": [
+      "assets/materialdesignicons-webfont-kq_ClZaA.eot",
+      "assets/materialdesignicons-webfont-6eb_lmTU.woff2",
+      "assets/materialdesignicons-webfont-D15t_tsC.woff",
+      "assets/materialdesignicons-webfont-e5j8FT_3.ttf"
+    ]
+  }
+}

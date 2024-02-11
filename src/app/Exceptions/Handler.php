@@ -1,13 +1,19 @@
 <?php
+/*
+ * @Date: 2024-02-05 22:55:02
+ * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
+ * @LastEditTime: 2024-02-08 20:14:02
+ */
 
 namespace App\Exceptions;
 
 use App\Helper;
-use Exception;
+use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
 use Swift_TransportException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,10 +43,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception $exception
+     * @param  \Throwable $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
     }
@@ -49,15 +55,16 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $exception
+     * @param  \Throwable $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
             return $this->response($request, 404, '页面不存在');
         } elseif ($exception instanceof HttpException) {
             if ($exception->getStatusCode() === 405) {
+                Log::debug( 'MethodNotAllowedHttpException: ' . $exception );
                 return $this->response($request, $exception->getStatusCode(), 'MethodNotAllowedHttpException');
             } else {
                 return $this->response($request, $exception->getStatusCode(), $exception->getMessage());
@@ -65,7 +72,7 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof Swift_TransportException) {
             return $this->response($request, 500, $exception->getMessage());
         } elseif ($exception instanceof TokenCollectionException || $exception instanceof TokenMismatchException) {
-            //return $this->response($request, 419, "页面过期，请刷新后再试！");
+            return $this->response($request, 419, "页面过期，请刷新后再试！");
         }
         return parent::render($request, $exception);
     }
@@ -77,12 +84,12 @@ class Handler extends ExceptionHandler
         $url = isset($message[1]) ? $message[1] : null;
         $message = $message[0];
         if ($status < 0) {
-            return Response::create(['status' => $status, 'message' => $message], 200);
+            return response()->json(['status' => $status, 'message' => $message], 200);
         }
         if (!Helper::isPjax() && ($request->isXmlHttpRequest() || strpos($request->path(), 'api/') === 0)) {
-            return Response::create(['status' => $status, 'message' => $message], 200);
+            return response()->json(['status' => $status, 'message' => $message], 200);
         } else {
-            return Response::create(view('error')->with(['status' => $status, 'error' => $message, 'url' => $url]));
+            return response()->json(view('error')->with(['status' => $status, 'error' => $message, 'url' => $url]));
         }
     }
 }

@@ -11,8 +11,9 @@
 |
 */
 
+
 Route::get('captcha', 'Index\IndexController@captcha');//验证码
-Route::any('login', 'Auth\LoginController@userLogin')->name('login');//登录
+Route::post('login', 'Auth\LoginController@userLogin');//登录
 Route::post('reg', 'Index\IndexController@reg');//注册
 Route::any('password', 'Index\IndexController@password');//找回密码
 Route::any('logout', 'Auth\LoginController@logout');//退出
@@ -23,8 +24,9 @@ Route::get('version', function () {
     return ['status' => 0, 'version' => config('version')];
 });
 
+
 Route::get('/', function () {
-    return view(config('sys.html_mb'));
+    return view('index2');
 });
 
 Route::any('install', 'InstallController@install');
@@ -38,7 +40,10 @@ Route::get('cron/check/{key}', 'Index\IndexController@autoCheck');
 
 Route::post('check', 'Index\IndexController@check');
 
+Route::post('user', 'Index\IndexController@user');
+
 Route::prefix('home')->middleware(['auth', 'auth.session:web'])->namespace('Home')->group(function () {
+    /*
     Route::get('/', function () {
         return view('home.index');
     });
@@ -51,6 +56,10 @@ Route::prefix('home')->middleware(['auth', 'auth.session:web'])->namespace('Home
     Route::get('red', function () {
         return view('home.red');
     });
+    Route::get('red', function () {
+        return view('home.red');
+    });
+    */
     Route::post('/', 'HomeController@post');
 });
 
@@ -108,3 +117,6 @@ Route::prefix('admin')->middleware('auth:admin', 'auth.session:admin')->namespac
         });
     });
 });
+Route::get('/{any}', function () {
+    return view(config('sys.html_mb'));
+})->where('any', '.*');

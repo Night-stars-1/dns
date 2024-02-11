@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpKernel\DataCollector;
 
 use Symfony\Component\VarDumper\Caster\CutStub;
+use Symfony\Component\VarDumper\Caster\ReflectionCaster;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\Stub;
@@ -25,47 +26,27 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bernhard Schussek <bschussek@symfony.com>
  */
-abstract class DataCollector implements DataCollectorInterface, \Serializable
+abstract class DataCollector implements DataCollectorInterface
 {
+    /**
+     * @var array|Data
+     */
     protected $data = [];
 
-    /**
-     * @var ClonerInterface
-     */
-    private $cloner;
-
-    public function serialize()
-    {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
-        $isCalledFromOverridingMethod = isset($trace[1]['function'], $trace[1]['object']) && 'serialize' === $trace[1]['function'] && $this === $trace[1]['object'];
-
-        return $isCalledFromOverridingMethod ? $this->data : serialize($this->data);
-    }
-
-    public function unserialize($data)
-    {
-        $this->data = \is_array($data) ? $data : unserialize($data);
-    }
+    private ClonerInterface $cloner;
 
     /**
      * Converts the variable into a serializable Data instance.
      *
      * This array can be displayed in the template using
      * the VarDumper component.
-     *
-     * @param mixed $var
-     *
-     * @return Data
      */
-    protected function cloneVar($var)
+    protected function cloneVar(mixed $var): Data
     {
         if ($var instanceof Data) {
             return $var;
         }
-        if (null === $this->cloner) {
-            if (!class_exists(CutStub::class)) {
-                throw new \LogicException(sprintf('The VarDumper component is needed for the %s() method. Install symfony/var-dumper version 3.4 or above.', __METHOD__));
-            }
+        if (!isset($this->cloner)) {
             $this->cloner = new VarCloner();
             $this->cloner->setMaxItems(-1);
             $this->cloner->addCasters($this->getCasters());
@@ -79,7 +60,7 @@ abstract class DataCollector implements DataCollectorInterface, \Serializable
      */
     protected function getCasters()
     {
-        return [
+        $casters = [
             '*' => function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
                     foreach ($a as $k => $v) {
@@ -91,6 +72,42 @@ abstract class DataCollector implements DataCollectorInterface, \Serializable
 
                 return $a;
             },
-        ];
+        ] + ReflectionCaster::UNSET_CLOSURE_FILE_INFO;
+
+        return $casters;
+    }
+
+    public function __sleep(): array
+    {
+        return ['data'];
+    }
+
+    /**
+     * @return void
+     */
+    public function __wakeup()
+    {
+    }
+
+    /**
+     * @internal to prevent implementing \Serializable
+     */
+    final protected function serialize(): void
+    {
+    }
+
+    /**
+     * @internal to prevent implementing \Serializable
+     */
+    final protected function unserialize(string $data): void
+    {
+    }
+
+    /**
+     * @return void
+     */
+    public function reset()
+    {
+        $this->data = [];
     }
 }

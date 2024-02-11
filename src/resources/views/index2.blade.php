@@ -15,7 +15,7 @@
 					<div class="collapse navbar-collapse" id="navbarCollapse">
 						<ul class="navbar-nav ml-auto">
 							<li class="nav-item"><a class="nav-link page-scroll" href="/login">立即登入</a></li>
-							<li class="nav-item"><a class="nav-link page-scroll" href="/login?act=reg">用户注册</a></li>
+							<li class="nav-item"><a class="nav-link page-scroll" href="/register">用户注册</a></li>
 						</ul>
 						<form class="form-inline">
 							<a class="btn btn-primary page-scroll" href="{!! config('sys.html_kefu') !!}">客服</a>
@@ -29,7 +29,7 @@
 				<div class="row vh-md-100">
 					<div class="col-md-4 ml-auto my-auto text-center text-md-left order-2 order-md-1">
 						<h1 class="text-capitalize">告别传统对接</h1>
-						<p class="lead text-muted mb-5">{{ config('sys.web.name') }}，简单快捷、功能强大的控制面板。主打稳定长久稳定客户，控制面板无任何广告，让我们伴您的网站成长 !</p> <a href="/login?act=reg" class="btn btn-primary d-inline-flex flex-row align-items-center page-scroll"> 立即注册 <em data-feather="arrow-right" width="20" height="20" class="ml-2"></em> </a> <a href="/login" class="btn btn-primary d-inline-flex flex-row align-items-center page-scroll"> 立即登录 <em data-feather="arrow-right" width="20" height="20" class="ml-2"></em> </a>
+						<p class="lead text-muted mb-5">{{ config('sys.web.name') }}，简单快捷、功能强大的控制面板。主打稳定长久稳定客户，控制面板无任何广告，让我们伴您的网站成长 !</p> <a href="/register" class="btn btn-primary d-inline-flex flex-row align-items-center page-scroll"> 立即注册 <em data-feather="arrow-right" width="20" height="20" class="ml-2"></em> </a> <a href="/login" class="btn btn-primary d-inline-flex flex-row align-items-center page-scroll"> 立即登录 <em data-feather="arrow-right" width="20" height="20" class="ml-2"></em> </a>
 					</div>
 					<div class="col-md-7 my-auto pt-5 pt-md-0 order-1 order-md-2">
 						<img src="/images/zt2/mockup.svg" class="img-fluid d-block mx-auto" alt="Mockup">

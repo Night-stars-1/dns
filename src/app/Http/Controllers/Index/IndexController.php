@@ -18,8 +18,10 @@ use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -147,7 +149,7 @@ class IndexController extends Controller
         $username = $request->post('username');
         if (strlen($username) < 3) {
             $result['message'] = '请输入要找回的账号或邮箱地址';
-        } elseif (strtolower($request->post('code')) !== Session::get('captcha_code')) {
+        } elseif (!Session::get('captcha_code') || strtolower($request->post('code')) !== strtolower(Session::get('captcha_code'))) {
             $result['message'] = '验证码不正确';
         } elseif (!$user = User::where('gid', '>', 99)->where(function ($query) use ($username) {
             $query->where('username', $username)->orWhere('email', $username);
@@ -199,7 +201,7 @@ class IndexController extends Controller
         ];
         if (!config('sys.user.reg', 0)) {
             $result['message'] = '对不起，暂时关闭注册';
-        } elseif (strtolower($request->post('code')) !== Session::get('captcha_code')) {
+        } elseif (!Session::get('captcha_code') || strtolower($request->post('code')) !== strtolower(Session::get('captcha_code'))) {
             $result['message'] = '验证码不正确';
         } elseif (!Helper::checkEmail($data['email'])) {
             $result['message'] = '邮箱格式不正确';
@@ -241,6 +243,21 @@ class IndexController extends Controller
             }
         }
         return $result;
+    }
+
+    public function user(Request $request)
+    {
+        try {
+            if (Auth::check()) {
+                $user = Auth::user();
+                $user->group;
+                return $user;
+            } else {
+                return ['status' => -1002, 'message' => '请先登录！'];
+            }
+        } catch (\Exception $e) {
+            return ['status' => -1, 'message' => '异常请求'];
+        }
     }
 
     public function captcha(Request $request)

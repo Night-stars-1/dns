@@ -15,7 +15,7 @@
             <div class="card mb-3">
                 <div class="card-header text-white bg-info ">小周二级分发美化版安装提示</div>
                 <div class="card-body text-center text-danger">
-                    对不起，你已完成安装！如需重新安装，请删除 根目录/src/config/mysql.php 文件
+                    对不起，你已完成安装！如需重新安装，请删除 根目录/config/mysql.php 文件
                 </div>
             </div>
         @else

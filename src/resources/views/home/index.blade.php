@@ -199,8 +199,8 @@ echo $result;
 <!--弹窗内容-->
 		<script>
 			var tanchuang;
-                        tanchuang="{!! config('sys.html_home') !!}";
-                        swal(tanchuang);
+            tanchuang="{!! config('sys.html_home') !!}";
+            tanchuang && swal(tanchuang);
 		</script>
 
     </div>

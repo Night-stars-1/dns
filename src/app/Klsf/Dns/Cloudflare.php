@@ -116,11 +116,11 @@ class Cloudflare implements DnsInterface
         $list = [];
         $list[] = array(
             'Name' => '默认',
-            'Id' => 0,
+            'Id' => '0',
         );
         $list[] = array(
             'Name' => 'CDN',
-            'Id' => 1,
+            'Id' => '1',
         );
         return $list;
     }

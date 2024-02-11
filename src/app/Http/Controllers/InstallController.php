@@ -96,7 +96,7 @@ class InstallController extends Controller
             'password' => $request->post('password'),
             'prefix' => $request->post('prefix'),
         ];
-        if (!$mysql['host'] || !$mysql['port'] || !$mysql['database'] || !$mysql['username'] || !$mysql['password'] || !$mysql['prefix']) {
+        if (!$mysql['host'] || !$mysql['port'] || !$mysql['database'] || !$mysql['username'] || !$mysql['prefix']) {
             $result['message'] = '请填写正确MYSQL数据库信息';
         } else {
             try {
