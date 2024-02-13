@@ -97,13 +97,6 @@ export default {
 </script>
 
 <style>
-#app {
-    height: 100%;
-    background-image: url('https://t.mwm.moe/ycy');
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 .rounded {
     height: 100%;
 }
@@ -113,8 +106,4 @@ export default {
   color: inherit; /* 继承父元素的文本颜色 */
 }
 
-::-webkit-scrollbar {
-    width: 0;
-    /* 适用于Chrome、Safari和新版Edge浏览器 */
-}
 </style>

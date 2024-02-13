@@ -17,8 +17,8 @@
                                     :items="[{ did: 0, domain: '所有', point: 0, desc: '', line: { Name: '', Id: 0, } }, ...domainList]"
                                     item-title="domain" item-value="did" variant="solo-filled"></v-select>
                                 <v-select class="ml-4" v-model="searchData.type" label="记录类型"
-                                    :items="[{ index: 0, name: '所有' }, ...domainTypeData]" item-title="name" item-value="index"
-                                    variant="solo-filled"></v-select>
+                                    :items="[{ index: 0, name: '所有' }, ...domainTypeData]" item-title="name"
+                                    item-value="index" variant="solo-filled"></v-select>
                             </v-row>
                             <v-row no-gutters>
                                 <v-text-field v-model="searchData.name" label="主机记录" variant="solo-filled"></v-text-field>
@@ -33,7 +33,8 @@
                 </v-container>
             </template>
             <template v-slot:item.link="{ item }">
-                <a :href="`http://${item.name}.${item.domain.domain}`" target="_blank">{{ item.name + '.' + item.domain.domain }}</a>
+                <a :href="`http://${item.name}.${item.domain.domain}`" target="_blank">{{ item.name + '.' +
+                    item.domain.domain }}</a>
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-btn icon="mdi-pencil" size="small" variant="text" class="me-2" @click="editItem(item)"></v-btn>
@@ -48,7 +49,7 @@
         </v-data-table>
     </v-sheet>
 
-    <v-dialog v-model="domainDialog" @update:modelValue="editeding=false" width="auto" min-width="400px">
+    <v-dialog v-model="domainDialog" @update:modelValue="editeding = false" width="auto" :min-width="windowWidth<450? windowWidth:'450px'">
         <v-card>
             <v-toolbar dark color="primary">
                 <v-toolbar-title>记录添加/修改</v-toolbar-title>
@@ -70,7 +71,8 @@
                     <v-alert border="start" border-color="deep-purple accent-4" class="mb-5" v-if="domainData.domain"
                         :text="domainData.domain.desc" no-gutters></v-alert>
                 </v-row>
-                <v-select v-model="domainData.type" :items="domainTypeData" label="记录类型" outlined dense>
+                <v-select v-model="domainData.type" :items="domainTypeData" item-title="name" item-value="index"
+                    label="记录类型" outlined dense>
                 </v-select>
                 <v-text-field v-model="domainData.value" label="记录值" placeholder="键入记录值" outlined dense></v-text-field>
                 <v-select v-model="domainData.line_id" :items="domainData.domain?.line" item-title="Name" item-value="Id"
@@ -140,11 +142,16 @@ export default {
             name: '',
             type: 0 as string | number,
             value: '',
-        }
+        },
+        windowWidth: window.innerWidth,
     }),
     mounted() {
         this.getList(1);
         this.getDomainList(1);
+        window.addEventListener('resize', this.onResize);
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize);
     },
     methods: {
         showMessage(text: string, color: string = 'success') {
@@ -152,6 +159,9 @@ export default {
                 text,
                 color
             });
+        },
+        onResize() {
+            this.windowWidth = window.innerWidth;
         },
         editItem(item: RecordItem) {
             const domain = this.domainList.find((domain) => domain.domain === item.domain.domain) as DomainItem;

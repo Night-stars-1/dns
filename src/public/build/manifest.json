@@ -16,11 +16,11 @@
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
   },
   "resources/js/app.ts": {
-    "file": "assets/app-HSdUecIK.js",
+    "file": "assets/app--3GQue5n.js",
     "src": "resources/js/app.ts",
     "isEntry": true,
     "css": [
-      "assets/app-f4GnbDHj.css"
+      "assets/app-sSCm9i_0.css"
     ],
     "assets": [
       "assets/materialdesignicons-webfont-kq_ClZaA.eot",

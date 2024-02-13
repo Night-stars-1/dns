@@ -76,19 +76,7 @@ export default {
 </script>
 
 <style>
-#app {
-  height: 100%;
-  background-image: url('https://t.mwm.moe/ycy');
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
 .main {
     height: 100%;
-}
-
-::-webkit-scrollbar {
-  width: 0;
-  /* 适用于Chrome、Safari和新版Edge浏览器 */
 }
 </style>
