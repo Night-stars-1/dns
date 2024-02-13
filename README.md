@@ -47,6 +47,8 @@
 
 * Apache 伪静态配置
     * 确保 Apache 启用了 mod_rewrite 模块以支持 .htaccess 解析。
+* Apache 开启gzip优化配置
+    * 确保 Apache 启用了 mod_filter、mod_deflate 模块以支持 gzip 。
 * Nginx 伪静态配置
 
         location / {

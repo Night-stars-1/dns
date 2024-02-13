@@ -115,15 +115,11 @@ class Helper
                 Mail::send($view, $array, function ($message) use ($to, $subject) {
                     $message->to($to)->subject($subject);
                 });
+                return [true, null];
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 $message = $message ? mb_convert_encoding($e->getMessage(), 'UTF-8') : '发送邮件出错！';
                 return [false, $message];
-            }
-            if (count(Mail::failures()) < 1) {
-                return [true, null];
-            } else {
-                return [false, Mail::failures()];
             }
         }
     }

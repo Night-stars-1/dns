@@ -89,16 +89,16 @@
                         </div>
                         
                         <div class="form-group row">
-                            <label for="staticEmail" class="col-sm-3 col-form-label">码支付id</label>
+                            <label for="staticEmail" class="col-sm-3 col-form-label">码上付id</label>
                             <div class="col-sm-9">
-                                <input type="text" name="web[yzfid]" class="form-control" placeholder="码支付id"
+                                <input type="text" name="web[yzfid]" class="form-control" placeholder="码上付id"
                                        value="{{ config('sys.web.yzfid') }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="staticEmail" class="col-sm-3 col-form-label">码支付密钥</label>
+                            <label for="staticEmail" class="col-sm-3 col-form-label">码上付密钥</label>
                             <div class="col-sm-9">
-                                <input type="text" name="web[yzfmy]" class="form-control" placeholder="码支付密钥"
+                                <input type="text" name="web[yzfmy]" class="form-control" placeholder="码上付密钥"
                                        value="{{ config('sys.web.yzfmy') }}">
                             </div>
                         </div>

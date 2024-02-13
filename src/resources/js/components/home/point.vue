@@ -5,10 +5,6 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>积分明细 -- 当前积分【{{ user.point }}】</v-toolbar-title>
-                    <v-btn color="indigo-darken-3" variant="flat"
-                        :href="`/epay/index.php?WIDuser=${user.uid}&WIDtotal_fee=10&WIDsubject=积分充值&WIDsitename=${webName}`">
-                        积分充值
-                    </v-btn>
                 </v-toolbar>
                 <v-row class="mt-3" no-gutters>
                     <v-select v-model="searchAct" label="检索" :items="searchData" item-title="text"

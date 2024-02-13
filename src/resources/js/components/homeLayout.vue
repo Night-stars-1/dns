@@ -16,7 +16,7 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item :title="user ? `用户名: ${user.username} UID: ${user.point}` : ''" />
+                    <v-list-item :title="user ? `用户名: ${user.username} UID: ${user.uid}` : ''" />
                     <v-list-item class="text-center" @click="sign" title="签到" />
                     <v-list-item class="text-center" to="/home/profile" title="个人信息" />
                     <v-list-item class="text-center" :href="htmlKefu" title="联系客服" />
@@ -32,7 +32,8 @@
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-broadcast" title="解析记录" value="解析记录" to="/home" exact></v-list-item>
                 <v-list-item prepend-icon="mdi-web" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-list-box-outline" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-list-box-outline" title="积分明细" value="积分明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-cash-sync" title="积分充值" value="积分充值" to="/home/pay" exact></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -42,7 +43,8 @@
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-broadcast" title="解析记录" value="解析记录" to="/home" exact></v-list-item>
                 <v-list-item prepend-icon="mdi-web" title="免费防红" value="免费防红" to="/home/red" exact></v-list-item>
-                <v-list-item prepend-icon="mdi-list-box-outline" title="积分充值/明细" value="积分充值/明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-list-box-outline" title="积分明细" value="积分明细" to="/home/point" exact></v-list-item>
+                <v-list-item prepend-icon="mdi-cash-sync" title="积分充值" value="积分充值" to="/home/pay" exact></v-list-item>
             </v-list>
         </v-navigation-drawer>
 

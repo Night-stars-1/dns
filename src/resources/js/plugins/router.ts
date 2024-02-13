@@ -11,6 +11,8 @@ import Home from "../components/home/index.vue";
 import Profile from "../components/home/profile.vue";
 import Point from "../components/home/point.vue";
 import Red from "../components/home/red.vue";
+import Pay from "../components/home/pay.vue"
+import PayResult from "../components/pay/return.vue"
 
 const routes = [
     {
@@ -54,7 +56,19 @@ const routes = [
                 component: Red,
                 meta: { title: "公益防红" },
             },
+            {
+                path: "pay",
+                name: "pay",
+                component: Pay,
+                meta: { title: "积分充值" },
+            },
         ],
+    },
+    {
+        path: "/payReturn/:uid",
+        name: "payReturn",
+        component: PayResult,
+        meta: { title: "支付结果" },
     },
 ];
 const router = createRouter({

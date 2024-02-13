@@ -24,7 +24,6 @@ Route::get('version', function () {
     return ['status' => 0, 'version' => config('version')];
 });
 
-
 Route::get('/', function () {
     return view('index2');
 });
@@ -41,6 +40,10 @@ Route::get('cron/check/{key}', 'Index\IndexController@autoCheck');
 Route::post('check', 'Index\IndexController@check');
 
 Route::post('user', 'Index\IndexController@user');
+
+Route::get('getPaySign', 'Index\IndexController@getPaySign');
+
+Route::get('payNotify/{uid}', 'Index\IndexController@payNotify');
 
 Route::prefix('home')->middleware(['auth', 'auth.session:web'])->namespace('Home')->group(function () {
     /*

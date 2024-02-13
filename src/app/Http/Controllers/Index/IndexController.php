@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: me
@@ -14,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Domain;
 use App\Models\DomainRecord;
 use App\Models\User;
+use App\Models\UserPointRecord;
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use GuzzleHttp\Client;
@@ -34,8 +36,7 @@ class IndexController extends Controller
         } else {
             $start = time();
             $keywords = config('sys.keywords');
-            $keywords = explode("
-", $keywords);
+            $keywords = explode("", $keywords);
             $_keywords = [];
             foreach ($keywords as $k) {
                 $k = trim($k);
@@ -91,7 +92,6 @@ class IndexController extends Controller
                 }
             }
         }
-
     }
 
     public function password(Request $request)
@@ -183,7 +183,6 @@ class IndexController extends Controller
             }
         }
         abort(500, '链接已失效@/');
-
     }
 
     public function reg(Request $request)
@@ -284,4 +283,63 @@ class IndexController extends Controller
         return response($content, 200, ['Content-Type' => 'image/jpeg',]);
     }
 
+    public function getPaySign(Request $request)
+    {
+        $name = $request->get('name');
+        $notify_url = $request->get('notify_url');
+        $out_trade_no = $request->get('out_trade_no');
+        $pid = config('sys.web.yzfid');
+        $return_url = $request->get('return_url');
+        $sitename = $request->get('sitename');
+        $type = $request->get('type');
+        $yzfmy = config('sys.web.yzfmy');
+        $point = $request->get('point');
+        $money = $point / 100;
+        $paramString = "money=$money&name=$name&notify_url=$notify_url&out_trade_no=$out_trade_no&pid=$pid&return_url=$return_url&sitename=$sitename&type=$type";
+        $sign = md5("$paramString$yzfmy");
+        $paramString = "$paramString&sign=$sign&sign_type=MD5";
+        return ['status' => 0, 'paramString' => $paramString];
+    }
+
+    public function payNotify($uid, Request $request)
+    {
+        try {
+            $name = $request->get('name');
+            $out_trade_no = $request->get('out_trade_no');
+            $pid = config('sys.web.yzfid');
+            $trade_no = $request->get('trade_no');
+            $type = $request->get('type');
+            $yzfmy = config('sys.web.yzfmy');
+            $money = $request->get('money');
+            $sign = $request->get('sign');
+            $paramString = "money=$money&name=$name&out_trade_no=$out_trade_no&pid=$pid&trade_no=$trade_no&trade_status=TRADE_SUCCESS&type=$type";
+            $point = $money*100;
+            Log::info("支付回调：{$request} 账号UID: $uid 充值金额: $point");
+            if ($sign !== md5("$paramString$yzfmy")) {
+                Log::info("支付回调：签名错误 $uid");
+                return "签名错误！";
+            }
+            if ($user = User::find($uid)) {
+                $user->increment(
+                    'point',
+                    $point
+                );
+                UserPointRecord::create([
+                    'uid' => $user->uid,
+                    'action' => "充值",
+                    'point' => $point,
+                    'rest' => $user->point,
+                    'remark' => "充值金额: $money 元，获得积分: $point 个"
+                ]);
+                Log::info("支付回调：用户 $uid 充值成功");
+                return "充值成功！";
+            } else {
+                Log::info("支付回调：用户不存在 $uid");
+                return "充值失败！";
+            }
+        } catch (\Exception $e) {
+            Log::info("支付回调：异常 $uid");
+            return "充值失败！";
+        }
+    }
 }

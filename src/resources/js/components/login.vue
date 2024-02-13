@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center" style="width: 100%; height: 100%;">
+  <div class="d-flex align-center main">
     <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
       <div class="text-subtitle-1 text-medium-emphasis">账号</div>
 
@@ -81,6 +81,10 @@ export default {
   background-image: url('https://t.mwm.moe/ycy');
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.main {
+    height: 100%;
 }
 
 ::-webkit-scrollbar {
