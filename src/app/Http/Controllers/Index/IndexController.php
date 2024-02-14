@@ -179,10 +179,10 @@ class IndexController extends Controller
                 $user->status = 2;
                 $user->sid = md5(uniqid() . Str::random());
                 $user->save();
-                return $this->response($request, 200, "认证成功");
+                return response('认证成功', 200);
             }
         }
-        return $this->response($request, 500, "链接已失效");
+        return response('链接已失效', 500);
     }
 
     public function reg(Request $request)

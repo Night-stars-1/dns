@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-02-05 23:05:24
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-02-14 17:24:46
+ * @LastEditTime: 2024-02-14 17:37:42
  */
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
@@ -12,9 +12,6 @@ import Components from "unplugin-vue-components/vite";
 import { VuetifyResolver } from "unplugin-vue-components/resolvers";
 
 export default defineConfig({
-    server: {
-        https: {}
-    },
     plugins: [
         compressionPlugin({
             // 这里是插件选项
